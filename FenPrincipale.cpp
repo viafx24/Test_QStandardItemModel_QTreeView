@@ -1,24 +1,32 @@
 #include "FenPrincipale.h"
 
+#include "FenPrincipale.h"
+
 FenPrincipale::FenPrincipale()
 {
-    // Gestion de layout pour empiler des widgets verticalement
     QVBoxLayout *layout = new QVBoxLayout;
 
-    // modèle contenant l'arbre de tout les disques dur (arborescence)
-    QDirModel *modele = new QDirModel;
+    // crée un modèle standard (trés flexible)
+    QStandardItemModel *modele = new QStandardItemModel;
 
-    // vue (schema Modèle/vue) pour visualiser l'arboresence du modèle.
+    // on ajoute un item au premier niveau
+    QStandardItem *item = new QStandardItem("John Deuf");
+    modele->appendRow(item);
+
+    // on ajoute un item au deuxième niveau
+    item->appendRow(new QStandardItem("17 ans"));
+
+    QStandardItem *item2 = new QStandardItem("Michael Doe");
+    modele->appendRow(item2);
+    item2->appendRow(new QStandardItem("23 ans"));
+
+    // on crée la view et on la connecte.
     QTreeView *vue = new QTreeView;
-
-    // ne pas oublier de relier la vue au modèle.
     vue->setModel(modele);
 
-    // possibilité de choisir le disque dur à visualiser (ici C:)
-    vue->setRootIndex(modele->index("C:"));
+    // permet de supprimer le 1 en haut du widget
+    vue->header()->hide();
 
-
-    // ajout du widget à la layout et ne pas oublier le set
     layout->addWidget(vue);
     setLayout(layout);
 }
